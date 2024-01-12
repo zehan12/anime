@@ -1,4 +1,5 @@
 import CryptoJS from 'crypto-js';
+import config from '../config/config';
 
 const keys = {
 	key: CryptoJS.enc.Utf8.parse(config.KEY),

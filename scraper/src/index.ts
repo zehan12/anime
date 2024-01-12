@@ -8,6 +8,7 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+import { getRecentAnimeData, getSearchData } from './cheerio/scraper';
 import { getTrending } from './graphql/api';
 export interface Env {
 	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
@@ -31,7 +32,7 @@ export default {
 		try {
 			const url = new URL(request.url);
 			console.log(url);
-			const trending = (await getTrending())['results'];
+			const trending = (await getRecentAnimeData());
 			let data = { trending };
 			const json = JSON.stringify({ results: data });
 			if (json)
