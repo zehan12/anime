@@ -1,9 +1,9 @@
 import config from '../config/config';
-import { graphqlApiMediaDetailQuery, graphqlApiSearchQuery, graphqlApiTrendingQuery, graphqlApiUpcomingQuery } from './query';
+import { graphqlMediaDetailQuery, graphqlSearchQuery, graphqlTrendingQuery, graphqlUpcomingQuery } from './query';
 
-async function getTrending() {
+async function fetchTrendingData() {
 	const url = config.GRAPHQL_URL;
-	const query = graphqlApiTrendingQuery();
+	const query = graphqlTrendingQuery();
 	const options = {
 		method: 'POST',
 		headers: {
@@ -23,9 +23,9 @@ async function getTrending() {
 	return data;
 }
 
-async function getUpcomming(page: number) {
+async function fetchUpcommingData(page: number) {
 	const url = config.GRAPHQL_URL;
-	const query = graphqlApiUpcomingQuery(page);
+	const query = graphqlUpcomingQuery(page);
 	const options = {
 		method: 'POST',
 		headers: {
@@ -44,9 +44,9 @@ async function getUpcomming(page: number) {
 	return data;
 }
 
-async function getSearch(query: {}) {
-	const url = 'https://graphql.anilist.co';
-	query = graphqlApiSearchQuery(query, 1, 1);
+async function fetchSearchData(query: {}) {
+	const url = config.GRAPHQL_URL;
+	query = graphqlSearchQuery(query, 1, 1);
 	const options = {
 		method: 'POST',
 		headers: {
@@ -65,10 +65,10 @@ async function getSearch(query: {}) {
 	return data;
 }
 
-async function getAnime(id: number) {
+async function fetchAnimeData(id: number) {
 	const url = config.GRAPHQL_URL;
 	console.log(id);
-	const query = graphqlApiMediaDetailQuery(id);
+	const query = graphqlMediaDetailQuery(id);
 	console.log(query);
 	const options = {
 		method: 'POST',
@@ -92,4 +92,4 @@ async function getAnime(id: number) {
 	return results;
 }
 
-export { getTrending, getUpcomming, getSearch, getAnime };
+export { fetchTrendingData, fetchUpcommingData, fetchSearchData, fetchAnimeData };

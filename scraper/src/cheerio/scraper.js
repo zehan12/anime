@@ -5,7 +5,7 @@ import config from '../config/config';
 const BaseURL = config.CHEERIO_URL;
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36';
 
-async function getSearchData(name, page = 1) {
+async function scrapeSearchData(name, page = 1) {
     const response = await fetch(BaseURL + '/search.html?keyword=' + name + '&page=' + page);
     let html = await response.text();
     let $ = cheerio.load(html);
@@ -27,7 +27,7 @@ async function getSearchData(name, page = 1) {
     return searchResults;
 }
 
-async function getAnimeData(id) {
+async function scrapeAnimeData(id) {
     let response = await fetch(BaseURL + '/category/' + id);
     let html = await response.text();
     let $ = cheerio.load(html);
@@ -48,7 +48,7 @@ async function getAnimeData(id) {
     });
 
     const animeid = $('input#movie_id').attr('value');
-    response = await fetch('https://ajax.gogo-load.com/ajax/load-list-episode?ep_start=0&ep_end=10000000000000&id=' + animeid);
+    response = await fetch(config.AJAX_URL + animeid);
     html = await response.text();
     $ = cheerio.load(html);
 
@@ -64,7 +64,7 @@ async function getAnimeData(id) {
     return animeData;
 }
 
-async function getRecentAnimeData(page = 1) {
+async function scrapeRecentAnimeData(page = 1) {
     const response = await fetch(BaseURL + '/?page=' + page);
     let html = await response.text();
     let $ = cheerio.load(html);
@@ -84,7 +84,7 @@ async function getRecentAnimeData(page = 1) {
     return recentAnime;
 }
 
-async function getPopularAnimeData(page = 1, max = 10) {
+async function scrapePopularAnimeData(page = 1, max = 10) {
     const response = await fetch(BaseURL + '/popular.html?page=' + page.toString());
     let html = await response.text();
     let $ = cheerio.load(html);
@@ -104,7 +104,7 @@ async function getPopularAnimeData(page = 1, max = 10) {
     return popularAnime.slice(0, max);
 }
 
-async function getEpisodeData(id) {
+async function scrapeEpisodeData(id) {
     const link = `${BaseURL}/${id}`;
 
     const response = await fetch(link);
@@ -197,11 +197,11 @@ async function getAuthKey() {
 
 
 export {
-    getSearchData,
-    getAnimeData,
-    getRecentAnimeData,
-    getPopularAnimeData,
-    getEpisodeData,
+    scrapeSearchData,
+    scrapeAnimeData,
+    scrapeRecentAnimeData,
+    scrapePopularAnimeData,
+    scrapeEpisodeData,
     DLScrapper,
     getAuthKey
 }
