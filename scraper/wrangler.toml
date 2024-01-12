@@ -1,6 +1,7 @@
 name = "scraper"
 main = "src/index.ts"
 compatibility_date = "2023-12-18"
+node_compat = true
 
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.
